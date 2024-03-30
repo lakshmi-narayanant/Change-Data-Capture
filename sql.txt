@@ -1,0 +1,101 @@
+Set operator
+-----------
+
+	Union all
+	Union
+	Intersect
+	Minus
+
+Union all
+--------- combine both query result returns the data in existing order.
+
+SQL> select * from temp_1
+  2  Union all
+  3  select * from temp_2;
+
+         A
+----------
+         5
+         3
+         1
+         4
+         2
+         7
+         5
+         6
+         4
+
+9 rows selected.
+
+UNION
+-----
+
+	 combine both query result
+	 Removes the duplicates
+	 display the result in ascending order.
+
+
+SQL> select * from temp_1
+  2  intersect
+  3  select * from temp_2;
+
+         A
+----------
+         4
+         5
+
+SQL> select * from temp_1
+  2  minus
+  3  select * from temp_2;
+
+         A
+----------
+         1
+         2
+         3
+SQL> select 10,'hi' from dual
+  2  union
+  3  select 20,10 from dual;
+select 10,'hi' from dual
+          *
+ERROR at line 1:
+ORA-01790: expression must have same datatype as corresponding expression
+
+
+SQL> select * from temp_1
+  2  minus
+  3  select * from temp_2 order by 1 desc;
+
+         A
+----------
+         3
+         2
+         1
+
+rules to combine the two or more columns:
+1. no of columns
+2.columns data type is same for corresponding columns 
+3.order by clause is used in last query
+
+
+
+select * from temp_1
+minus
+select * from temp_2 
+union
+select * from temp_2 
+minus
+select * from temp_1;
+operations of queries:
+first minus operatio will take place for 1st vs 2nd query                  = output result 1
+then the union operation will take place for output result 1 vs 3rd query  = output result 2
+then minus operation will take place for output result 2 vs 4th query      =output final result  
+
+
+select * from temp_1
+minus
+select * from temp_2 
+union
+(select * from temp_2  
+minus 
+select * from temp_1);
